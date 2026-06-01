@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foto Wolf – Ihr Fotostudio in Chur</title>
+<style>
+  :root{
+    --gelb:#f2b705;
+    --gelb-dark:#d9a204;
+    --dunkel:#1d1d1b;
+    --grau:#f4f4f2;
+    --grau-mid:#8a8a86;
+    --weiss:#ffffff;
+    --radius:10px;
+    --shadow:0 8px 30px rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Helvetica Neue',Arial,sans-serif;color:var(--dunkel);background:var(--weiss);line-height:1.55}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:50;background:var(--weiss);border-bottom:1px solid #ececec}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0}
+  .logo img{height:54px}
+  nav ul{list-style:none;display:flex;gap:26px;align-items:center}
+  nav a{font-size:14px;font-weight:600;letter-spacing:.3px;color:#333;transition:color .2s}
+  nav a:hover{color:var(--gelb-dark)}
+  .btn{display:inline-block;border:none;cursor:pointer;font-family:inherit;font-weight:700;border-radius:var(--radius);transition:transform .15s,box-shadow .2s,background .2s}
+  .btn-cta{background:var(--gelb);color:var(--dunkel);padding:12px 22px;font-size:14px;box-shadow:0 4px 14px rgba(242,183,5,.45)}
+  .btn-cta:hover{background:var(--gelb-dark);transform:translateY(-1px)}
+  .nav-toggle{display:none;background:none;border:none;font-size:26px;cursor:pointer}
+
+  /* Hero */
+  .hero{position:relative;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('https://foto-wolf.ch/files/Fotowolf/Impressionen_Startseite/01_Kinder.jpg') center/cover no-repeat;color:#fff;text-align:center;padding:110px 22px 120px}
+  .hero h1{font-size:clamp(34px,6vw,64px);font-weight:800;line-height:1.05;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+  .hero h1 span{color:var(--gelb)}
+  .hero p{margin:18px auto 30px;font-size:clamp(15px,2.2vw,20px);max-width:620px;font-weight:500}
+  .hero .btn-cta{font-size:17px;padding:16px 34px}
+
+  /* Sections */
+  section{padding:74px 0}
+  .section-title{text-align:center;margin-bottom:46px}
+  .section-title h2{font-size:clamp(26px,4vw,40px);font-weight:800}
+  .section-title .bar{width:64px;height:4px;background:var(--gelb);margin:16px auto 0;border-radius:3px}
+  .lead{text-align:center;max-width:760px;margin:0 auto 10px;color:#555;font-size:17px}
+
+  /* Angebote */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .card{background:var(--weiss);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .2s}
+  .card:hover{transform:translateY(-6px)}
+  .card img{height:200px;width:100%;object-fit:cover}
+  .card-body{padding:20px 22px 26px}
+  .card-body h3{font-size:19px;margin-bottom:8px}
+  .card-body p{color:#666;font-size:14px;margin-bottom:16px}
+  .card-link{font-weight:700;color:var(--gelb-dark);font-size:14px}
+
+  /* Galerie */
+  .galerie{background:var(--grau)}
+  .grid-img{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .grid-img img{height:210px;width:100%;object-fit:cover;border-radius:8px}
+
+  /* Kunden */
+  .kunden-logos{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:center;filter:grayscale(1);opacity:.7}
+  .kunden-logos img{height:46px;width:auto}
+
+  /* Über uns / Adresse */
+  .about{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;align-items:center}
+  .about h2{font-size:32px;font-weight:800;margin-bottom:6px}
+  .about h3{color:var(--gelb-dark);font-size:20px;margin-bottom:18px}
+  .about p{color:#555;margin-bottom:14px}
+  .about .addr{background:var(--grau);padding:22px 24px;border-radius:var(--radius);border-left:4px solid var(--gelb);font-size:15px;line-height:1.8}
+  .about .addr strong{display:block;margin-bottom:4px}
+
+  /* Footer */
+  footer{background:var(--dunkel);color:#cfcfcf;padding:46px 0;font-size:14px}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:26px}
+  footer a:hover{color:var(--gelb)}
+  footer h4{color:#fff;margin-bottom:12px;font-size:15px}
+  .foot-bottom{text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid #333;color:#888}
+
+  /* ===== Booking Modal ===== */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:40px 16px;overflow-y:auto}
+  .modal-overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:640px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:pop .25s ease}
+  @keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px 0}
+  .modal-head h3{font-size:20px}
+  .close-x{background:none;border:none;font-size:30px;line-height:1;cursor:pointer;color:#999}
+  .close-x:hover{color:#333}
+
+  /* Progress */
+  .steps{display:flex;gap:8px;padding:18px 26px 6px}
+  .steps .dot{flex:1;height:6px;border-radius:4px;background:#e5e5e5;transition:background .3s}
+  .steps .dot.active{background:var(--gelb)}
+
+  .modal-body{padding:14px 26px 8px;min-height:230px}
+  .step{display:none;animation:fade .3s ease}
+  .step.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .step h4{font-size:21px;margin-bottom:6px}
+  .step .sub{color:#777;font-size:14px;margin-bottom:20px}
+
+  .option-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .opt{border:2px solid #e8e8e8;border-radius:12px;padding:16px;cursor:pointer;transition:all .18s;display:flex;gap:14px;align-items:center}
+  .opt:hover{border-color:var(--gelb)}
+  .opt.selected{border-color:var(--gelb);background:#fffbe9}
+  .opt .ico{font-size:26px;flex-shrink:0}
+  .opt .t{font-weight:700;font-size:15px}
+  .opt .d{font-size:12.5px;color:#888;margin-top:2px}
+
+  .choice-list{display:flex;flex-direction:column;gap:10px}
+  .choice{border:2px solid #e8e8e8;border-radius:10px;padding:14px 16px;cursor:pointer;font-weight:600;font-size:15px;transition:all .18s}
+  .choice:hover{border-color:var(--gelb)}
+  .choice.selected{border-color:var(--gelb);background:#fffbe9}
+
+  .field{margin-bottom:16px}
+  .field label{display:block;font-weight:600;font-size:13.5px;margin-bottom:6px}
+  .field input{width:100%;padding:12px 14px;border:2px solid #e2e2e2;border-radius:10px;font-size:15px;font-family:inherit}
+  .field input:focus{outline:none;border-color:var(--gelb)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  /* date/time */
+  .dt-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .cal-head button{background:#f2f2f2;border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:16px}
+  .cal-head span{font-weight:700;font-size:15px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+  .cal-grid .wd{font-size:11px;color:#aaa;font-weight:700;padding-bottom:4px}
+  .day{padding:8px 0;border-radius:8px;cursor:pointer;font-size:13.5px;border:1px solid transparent}
+  .day:hover:not(.disabled){background:#fffbe9}
+  .day.disabled{color:#d2d2d2;cursor:not-allowed}
+  .day.selected{background:var(--gelb);color:#fff;font-weight:700}
+  .slots{display:flex;flex-direction:column;gap:8px;max-height:230px;overflow-y:auto}
+  .slot-title{font-weight:700;font-size:14px;margin-bottom:4px}
+  .slot{border:2px solid #e8e8e8;border-radius:8px;padding:10px;text-align:center;cursor:pointer;font-weight:600;font-size:14px;transition:all .15s}
+  .slot:hover{border-color:var(--gelb)}
+  .slot.selected{background:var(--gelb);border-color:var(--gelb);color:#fff}
+  .slot-hint{color:#aaa;font-size:13px}
+
+  .summary{background:var(--grau);border-radius:12px;padding:16px 18px;margin-bottom:18px;font-size:14px;line-height:1.9}
+  .summary b{display:inline-block;min-width:110px;color:#777}
+
+  /* confirm */
+  .confirm{text-align:center;padding:18px 0}
+  .check{width:80px;height:80px;border-radius:50%;background:var(--gelb);margin:0 auto 22px;display:flex;align-items:center;justify-content:center;animation:pop .4s ease}
+  .check svg{width:42px;height:42px}
+  .confirm h4{font-size:24px;margin-bottom:10px}
+  .confirm p{color:#666;max-width:420px;margin:0 auto 8px}
+  .confirm .recap{background:var(--grau);border-radius:12px;padding:18px;margin:22px auto 0;text-align:left;font-size:14px;line-height:1.9;max-width:420px}
+
+  .modal-foot{display:flex;justify-content:space-between;gap:12px;padding:16px 26px 24px;border-top:1px solid #f0f0f0;margin-top:8px}
+  .btn-ghost{background:#f2f2f2;color:#444;padding:12px 22px;font-size:14px}
+  .btn-ghost:hover{background:#e6e6e6}
+  .btn-next{background:var(--gelb);color:var(--dunkel);padding:12px 28px;font-size:14px}
+  .btn-next:hover{background:var(--gelb-dark)}
+  .btn-next:disabled{opacity:.45;cursor:not-allowed}
+  .btn-next:disabled:hover{background:var(--gelb)}
+
+  /* floating CTA mobile */
+  .float-cta{display:none}
+
+  @media(max-width:860px){
+    nav ul{display:none}
+    .nav-toggle{display:block}
+    .cards{grid-template-columns:1fr}
+    .grid-img{grid-template-columns:1fr 1fr}
+    .about{grid-template-columns:1fr}
+    .dt-wrap{grid-template-columns:1fr}
+    .option-grid{grid-template-columns:1fr}
+    .header-cta{display:none}
+    .float-cta{display:block;position:fixed;left:16px;right:16px;bottom:16px;z-index:60}
+    .float-cta .btn-cta{width:100%;font-size:16px;padding:16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <a class="logo" href="#top"><img src="https://foto-wolf.ch/assets/images/0/logo_mit-gelb-c9acc8a2.png" alt="Foto Wolf"></a>
+    <nav>
+      <ul>
+        <li><a href="#angebote">Bewerbung + Pass</a></li>
+        <li><a href="#angebote">Fotostudio</a></li>
+        <li><a href="#angebote">Wildtierfotografie</a></li>
+        <li><a href="#angebote">Kurse</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <button class="btn btn-cta header-cta" onclick="openBooking()">Termin buchen</button>
+    <button class="nav-toggle" aria-label="Menü">☰</button>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <h1>Fotografie ist unsere <span>Leidenschaft</span></h1>
+  <p>Bewerbungs- &amp; Businessfotos, Pass &amp; Visa, Portrait &amp; Familien, Wildtierfotografie und Kurse – Ihr Fotostudio in Chur.</p>
+  <button class="btn btn-cta" onclick="openBooking()">Jetzt Termin buchen</button>
+</section>
+
+<!-- Angebote -->
+<section id="angebote">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>Unsere Angebote</h2>
+      <div class="bar"></div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <img src="https://foto-wolf.ch/files/Fotowolf/334x220/01_bewerbung.jpg" alt="Bewerbung & Business">
+        <div class="card-body">
+          <h3>Bewerbung &amp; Business</h3>
+          <p>Bewerbungsbilder, Ausweisbilder für Pass &amp; Visa, Businessfotos – wir kennen die Vorschriften.</p>
+          <a class="card-link" href="#" onclick="openBooking('bewerbung');return false;">Termin buchen →</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://foto-wolf.ch/files/Fotowolf/334x220/01_kinder.jpg" alt="Familien & Kinder">
+        <div class="card-body">
+          <h3>Portrait &amp; Familien</h3>
+          <p>Fotoshooting im Studio – Portrait, Familie, Babybauch &amp; Kinder. Ab CHF 120.00</p>
+          <a class="card-link" href="#" onclick="openBooking('portrait');return false;">Termin buchen →</a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://foto-wolf.ch/files/Fotowolf/334x220/01_voegel.jpg" alt="Vögel & Wildtiere">
+        <div class="card-body">
+          <h3>Wildtierfotografie</h3>
+          <p>Vögel &amp; Wildtiere am Calanda, beim Rhein, rund um Chur und im Rheintal.</p>
+          <a class="card-link" href="#" onclick="openBooking('wildtier');return false;">Termin buchen →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Galerie -->
+<section class="galerie">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>Bilder aus unserem Fotostudio</h2>
+      <div class="bar"></div>
+    </div>
+    <div class="grid-img">
+      <img src="https://foto-wolf.ch/files/Fotowolf/Impressionen_Startseite/01_Kinder.jpg" alt="">
+      <img src="https://foto-wolf.ch/files/Fotowolf/Impressionen_Startseite/02_Kinder.jpg" alt="">
+      <img src="https://foto-wolf.ch/files/Fotowolf/Impressionen_Startseite/04_Kinder.jpg" alt="">
+      <img src="https://foto-wolf.ch/files/Fotowolf/Impressionen_Startseite/03_Kinder.jpg" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- Kunden -->
+<section>
+  <div class="wrap">
+    <div class="section-title">
+      <h2>Unsere Kunden</h2>
+      <div class="bar"></div>
+    </div>
+    <div class="kunden-logos">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/porsche.jpg" alt="Porsche">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/bdo.jpg" alt="BDO">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/Buchhaus.jpg" alt="Buchhaus">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/chur97.jpg" alt="Chur 97">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/fixit.jpg" alt="Fixit">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/guyan.jpg" alt="Guyan">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/sulser.jpg" alt="Sulser">
+      <img src="https://foto-wolf.ch/files/Fotowolf/unsere_Kunden/willi_haustechnik.jpg" alt="Willi Haustechnik">
+    </div>
+  </div>
+</section>
+
+<!-- About / Kontakt -->
+<section id="kontakt" class="galerie">
+  <div class="wrap about">
+    <div>
+      <h2>Foto Wolf</h2>
+      <h3>Ihr Fotostudio in Chur</h3>
+      <p>Für Familienbilder, Babybauch- und Neugeborenen-Shootings, Kinder, junge und jung gebliebene – einfach für alle, die bleibende Erinnerungen wünschen.</p>
+      <p>Wir erstellen auch Ihre Wandbilder als exklusiven Druck auf Fotopapier. In unserem Pass- und Bewerbungsstudio erhalten Sie Ausweisbilder und Fotos für Visa und Pass.</p>
+      <button class="btn btn-cta" style="margin-top:8px" onclick="openBooking()">Termin buchen</button>
+    </div>
+    <div class="addr">
+      <strong>Adresse</strong>
+      Foto Wolf<br>Salvatorenstrasse 74<br>7000 Chur<br><br>
+      <strong>Kontakt</strong>
+      Mobile: +41 79 218 30 33<br>
+      Tel. +41 81 252 12 81<br>
+      info@foto-wolf.ch
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <h4>Foto Wolf</h4>
+      Salvatorenstrasse 74<br>7000 Chur<br>info@foto-wolf.ch
+    </div>
+    <div>
+      <h4>Angebot</h4>
+      Fotos für Pass und Visa<br>
+      Bewerbungs- &amp; Businessbilder<br>
+      Portrait &amp; Familien<br>
+      Fotokurse
+    </div>
+    <div>
+      <h4>Termin</h4>
+      <a href="#" onclick="openBooking();return false;">Online Termin buchen →</a><br>
+      Mobile: +41 79 218 30 33
+    </div>
+  </div>
+  <div class="wrap foot-bottom">© Foto Wolf · Ihr Fotostudio in Chur — Demo-Vorschau der Online-Terminbuchung</div>
+</footer>
+
+<div class="float-cta"><button class="btn btn-cta" onclick="openBooking()">Termin buchen</button></div>
+
+<!-- ===== Booking Modal ===== -->
+<div class="modal-overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Termin buchen</h3>
+      <button class="close-x" onclick="closeBooking()">&times;</button>
+    </div>
+    <div class="steps" id="steps">
+      <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+
+    <div class="modal-body">
+      <!-- Step 1: Leistung -->
+      <div class="step active" data-step="1">
+        <h4>Welche Leistung darf es sein?</h4>
+        <div class="sub">Wählen Sie den passenden Termin-Typ.</div>
+        <div class="option-grid" id="serviceGrid">
+          <div class="opt" data-service="bewerbung" onclick="selectService(this)">
+            <div class="ico">💼</div><div><div class="t">Bewerbung &amp; Business</div><div class="d">Bewerbungs-, Pass-, Visa- &amp; Businessfotos</div></div>
+          </div>
+          <div class="opt" data-service="portrait" onclick="selectService(this)">
+            <div class="ico">📸</div><div><div class="t">Portrait &amp; Familien</div><div class="d">Studio-Shooting ab CHF 120</div></div>
+          </div>
+          <div class="opt" data-service="wildtier" onclick="selectService(this)">
+            <div class="ico">🦌</div><div><div class="t">Wildtierfotografie</div><div class="d">Begleitetes Shooting in der Natur</div></div>
+          </div>
+          <div class="opt" data-service="kurs" onclick="selectService(this)">
+            <div class="ico">🎓</div><div><div class="t">Fotokurs</div><div class="d">Wildtierfotografie lernen</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Frage -->
+      <div class="step" data-step="2">
+        <h4 id="q-title">Kurze Frage</h4>
+        <div class="sub" id="q-sub">Damit wir Ihren Termin richtig vorbereiten.</div>
+        <div class="choice-list" id="questionList"></div>
+      </div>
+
+      <!-- Step 3: Datum & Zeit -->
+      <div class="step" data-step="3">
+        <h4>Datum &amp; Uhrzeit wählen</h4>
+        <div class="sub">Verfügbare Termine in den nächsten Wochen.</div>
+        <div class="dt-wrap">
+          <div>
+            <div class="cal-head">
+              <button onclick="changeMonth(-1)">‹</button>
+              <span id="calLabel"></span>
+              <button onclick="changeMonth(1)">›</button>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+          <div>
+            <div class="slot-title" id="slotTitle">Bitte Datum wählen</div>
+            <div class="slots" id="slots"><div class="slot-hint">Wählen Sie links ein Datum.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Kontakt -->
+      <div class="step" data-step="4">
+        <h4>Ihre Kontaktdaten</h4>
+        <div class="sub">Wir bestätigen Ihren Termin per E-Mail.</div>
+        <div class="summary" id="contactSummary"></div>
+        <div class="row2">
+          <div class="field"><label>Vorname</label><input id="f-vorname" oninput="validateContact()"></div>
+          <div class="field"><label>Nachname</label><input id="f-nachname" oninput="validateContact()"></div>
+        </div>
+        <div class="field"><label>E-Mail</label><input id="f-email" type="email" oninput="validateContact()"></div>
+        <div class="field"><label>Telefon</label><input id="f-tel" type="tel" oninput="validateContact()"></div>
+      </div>
+
+      <!-- Step 5: Bestätigung -->
+      <div class="step" data-step="5">
+        <div class="confirm">
+          <div class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>Termin angefragt!</h4>
+          <p id="confirmText">Vielen Dank. Wir haben Ihre Anfrage erhalten und melden uns in Kürze zur Bestätigung.</p>
+          <div class="recap" id="recap"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot" id="foot">
+      <button class="btn btn-ghost" id="backBtn" onclick="prevStep()" style="visibility:hidden">Zurück</button>
+      <button class="btn btn-next" id="nextBtn" onclick="nextStep()" disabled>Weiter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- Daten ---------- */
+const SERVICES = {
+  bewerbung:{label:"Bewerbung & Business", icon:"💼",
+    q:"Wofür brauchen Sie das Foto?",
+    choices:["Bewerbungsbild","Pass / Visa / ID","Businessbild","Team-Shooting bei Ihnen vor Ort"]},
+  portrait:{label:"Portrait & Familien", icon:"📸",
+    q:"Wer wird fotografiert?",
+    choices:["Einzelportrait","Paar","Familie","Babybauch","Neugeborenes / Baby","Kinder"]},
+  wildtier:{label:"Wildtierfotografie", icon:"🦌",
+    q:"Was möchten Sie fotografieren?",
+    choices:["Vögel","Wild am Calanda","Landschaft & Natur","Noch unklar – bitte beraten"]},
+  kurs:{label:"Fotokurs", icon:"🎓",
+    q:"Welches Niveau passt zu Ihnen?",
+    choices:["Einsteiger","Fortgeschritten","Privatkurs (1:1)","Gruppe (ab 2 Personen)"]}
+};
+const WEEKDAYS=["Mo","Di","Mi","Do","Fr","Sa","So"];
+const MONTHS=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+const TIMES=["09:00","09:45","10:30","11:15","13:30","14:15","15:00","15:45","16:30"];
+
+const state={step:1, service:null, choice:null, date:null, time:null};
+let viewMonth, viewYear;
+
+/* ---------- Modal öffnen/schliessen ---------- */
+function openBooking(pre){
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  resetFlow();
+  if(pre && SERVICES[pre]){
+    const el=document.querySelector('.opt[data-service="'+pre+'"]');
+    if(el) selectService(el);
+  }
+}
+function closeBooking(){
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeBooking();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBooking();});
+
+function resetFlow(){
+  state.step=1; state.service=null; state.choice=null; state.date=null; state.time=null;
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  const now=new Date(); viewMonth=now.getMonth(); viewYear=now.getFullYear();
+  ['f-vorname','f-nachname','f-email','f-tel'].forEach(id=>document.getElementById(id).value='');
+  showStep();
+}
+
+/* ---------- Schritt 1 ---------- */
+function selectService(el){
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.service=el.dataset.service;
+  state.choice=null;
+  updateNext();
+}
+
+/* ---------- Schritt 2 ---------- */
+function buildQuestion(){
+  const s=SERVICES[state.service];
+  document.getElementById('q-title').textContent=s.q;
+  const list=document.getElementById('questionList');
+  list.innerHTML='';
+  s.choices.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='choice'+(state.choice===c?' selected':'');
+    d.textContent=c;
+    d.onclick=()=>{state.choice=c;buildQuestion();updateNext();};
+    list.appendChild(d);
+  });
+}
+
+/* ---------- Schritt 3: Kalender ---------- */
+function changeMonth(d){
+  viewMonth+=d;
+  if(viewMonth<0){viewMonth=11;viewYear--;}
+  if(viewMonth>11){viewMonth=0;viewYear++;}
+  buildCalendar();
+}
+function buildCalendar(){
+  document.getElementById('calLabel').textContent=MONTHS[viewMonth]+" "+viewYear;
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  WEEKDAYS.forEach(w=>{const e=document.createElement('div');e.className='wd';e.textContent=w;grid.appendChild(e);});
+  const first=new Date(viewYear,viewMonth,1);
+  let startDow=(first.getDay()+6)%7; // Montag=0
+  const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
+  const today=new Date();today.setHours(0,0,0,0);
+  for(let i=0;i<startDow;i++){grid.appendChild(document.createElement('div'));}
+  for(let day=1;day<=daysInMonth;day++){
+    const cell=document.createElement('div');
+    cell.className='day';cell.textContent=day;
+    const dDate=new Date(viewYear,viewMonth,day);
+    const dow=dDate.getDay();
+    const past=dDate<today;
+    const sunday=(dow===0);
+    if(past||sunday){cell.classList.add('disabled');}
+    else{
+      cell.onclick=()=>{
+        state.date=dDate; state.time=null;
+        buildCalendar(); buildSlots(); updateNext();
+      };
+    }
+    if(state.date && dDate.toDateString()===state.date.toDateString())cell.classList.add('selected');
+    grid.appendChild(cell);
+  }
+}
+function buildSlots(){
+  const t=document.getElementById('slotTitle');
+  const box=document.getElementById('slots');
+  if(!state.date){box.innerHTML='<div class="slot-hint">Wählen Sie links ein Datum.</div>';return;}
+  const d=state.date;
+  t.textContent=WEEKDAYS[(d.getDay()+6)%7]+", "+d.getDate()+". "+MONTHS[d.getMonth()];
+  // Samstag = weniger Slots
+  const list=(d.getDay()===6)?TIMES.slice(0,4):TIMES;
+  box.innerHTML='';
+  list.forEach(time=>{
+    const s=document.createElement('div');
+    s.className='slot'+(state.time===time?' selected':'');
+    s.textContent=time;
+    s.onclick=()=>{state.time=time;buildSlots();updateNext();};
+    box.appendChild(s);
+  });
+}
+
+/* ---------- Schritt 4 ---------- */
+function fmtDate(d){return WEEKDAYS[(d.getDay()+6)%7]+", "+d.getDate()+". "+MONTHS[d.getMonth()]+" "+d.getFullYear();}
+function buildContactSummary(){
+  const s=SERVICES[state.service];
+  document.getElementById('contactSummary').innerHTML=
+    "<div><b>Leistung</b> "+s.icon+" "+s.label+"</div>"+
+    "<div><b>Detail</b> "+state.choice+"</div>"+
+    "<div><b>Termin</b> "+fmtDate(state.date)+" um "+state.time+" Uhr</div>";
+}
+function validateContact(){updateNext();}
+function contactValid(){
+  const v=id=>document.getElementById(id).value.trim();
+  const email=v('f-email');
+  return v('f-vorname')&&v('f-nachname')&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)&&v('f-tel');
+}
+
+/* ---------- Schritt 5 ---------- */
+function buildRecap(){
+  const s=SERVICES[state.service];
+  const name=document.getElementById('f-vorname').value+" "+document.getElementById('f-nachname').value;
+  document.getElementById('recap').innerHTML=
+    "<div><b>Leistung:</b> "+s.label+"</div>"+
+    "<div><b>Detail:</b> "+state.choice+"</div>"+
+    "<div><b>Termin:</b> "+fmtDate(state.date)+", "+state.time+" Uhr</div>"+
+    "<div><b>Name:</b> "+name+"</div>"+
+    "<div><b>E-Mail:</b> "+document.getElementById('f-email').value+"</div>";
+}
+
+/* ---------- Navigation ---------- */
+function updateNext(){
+  const btn=document.getElementById('nextBtn');
+  let ok=false;
+  if(state.step===1)ok=!!state.service;
+  else if(state.step===2)ok=!!state.choice;
+  else if(state.step===3)ok=!!(state.date&&state.time);
+  else if(state.step===4)ok=contactValid();
+  btn.disabled=!ok;
+}
+function showStep(){
+  document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',+s.dataset.step===state.step));
+  document.querySelectorAll('#steps .dot').forEach((d,i)=>d.classList.toggle('active',i<state.step));
+  document.getElementById('backBtn').style.visibility=(state.step===1||state.step===5)?'hidden':'visible';
+  const next=document.getElementById('nextBtn');
+  if(state.step===4)next.textContent='Termin anfragen';
+  else if(state.step===5){document.getElementById('foot').style.display='none';}
+  else next.textContent='Weiter';
+  if(state.step!==5)document.getElementById('foot').style.display='flex';
+  updateNext();
+}
+function nextStep(){
+  if(document.getElementById('nextBtn').disabled)return;
+  if(state.step===1){buildQuestion();}
+  if(state.step===2){buildCalendar();buildSlots();}
+  if(state.step===3){buildContactSummary();}
+  if(state.step===4){buildRecap();}
+  state.step++;
+  showStep();
+}
+function prevStep(){
+  if(state.step>1){state.step--;showStep();
+    if(state.step===2)buildQuestion();
+    if(state.step===3){buildCalendar();buildSlots();}
+  }
+}
+</script>
+</body>
+</html>
